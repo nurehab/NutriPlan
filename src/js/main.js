@@ -214,12 +214,14 @@ export async function initMeals() {
     loader.remove();
     products.clear();
     if (dataFiltered.length > 0) {
-      recipesCount.textContent = `Showing ${dataFiltered.length} ${nameCat} recipes`;
+      currentProducts = dataFiltered;
+      productsCount.textContent = `Showing ${dataFiltered.length} ${nameCat} recipes`;
       dataFiltered.forEach((mealsFilter) => {
         products.render(mealsFilter);
       });
     } else {
-      recipesCount.textContent = `No recipes found for ${nameCat}`;
+      currentProducts = [];
+      productsCount.textContent = `No recipes found for ${nameCat}`;
       products.emptyState();
     }
   });
@@ -398,8 +400,6 @@ export async function initMeals() {
   backToMealsBtn.addEventListener("click", () => {
     showPage("home");
   });
-
-
 
   // ! PRODUCT SCANNER !
   productsGrid.addEventListener("click", (e) => {
