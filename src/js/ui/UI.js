@@ -517,10 +517,10 @@ export class CatScanUI {
 export class LoadingUI {
   constructor(containerElement) {
     this.container = containerElement;
+    this.container.style.transition = "opacity 500ms ease";
   }
+
   render() {
-    this.container.classList.remove("hidden");
-    this.container.classList.remove("opacity-0");
     let card = document.createElement("div");
     card.classList.add("text-center");
     let firstBox = document.createElement("div");
@@ -591,14 +591,21 @@ export class LoadingUI {
     secBox.append(firstAnimate, secAnimate, thirdAnimate);
     card.append(firstBox, title, text, secBox);
     this.container.append(card);
+
+    this.container.classList.remove("hidden");
+    this.container.style.opacity = "0";
+    this.container.offsetHeight;
+    this.container.style.opacity = "1";
   }
+
   hide() {
-    this.container.classList.add("opacity-0");
+    this.container.style.opacity = "0";
 
     setTimeout(() => {
       this.container.classList.add("hidden");
     }, 500);
   }
+
   reqLoading() {
     let card = document.createElement("div");
     card.classList.add("flex", "items-center", "justify-center", "py-12");

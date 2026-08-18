@@ -423,11 +423,11 @@ export async function initMeals() {
       name: product.name,
       brand: product.brand || "",
       image: product.image || "",
-      calories: Number(product.calories) || 0,
-      protein: Number(product.protein) || 0,
-      carbs: Number(product.carbs) || 0,
-      fat: Number(product.fat) || 0,
-      sugar: Number(product.sugar) || 0,
+      calories: +product.calories || 0,
+      protein: +product.protein || 0,
+      carbs: +product.carbs || 0,
+      fat: +product.fat || 0,
+      sugar: +product.sugar || 0,
       date: today,
       time: new Date().toLocaleTimeString([], {
         hour: "2-digit",
@@ -439,11 +439,54 @@ export async function initMeals() {
     productModal.close();
     renderFoodLog();
     Swal.fire({
-      title: "Product Logged!",
-      text: `${product.name} has been added to your daily log.`,
-      icon: "success",
+      title: `${product.name} logged to your daily intake! 📝`,
+      toast: true,
+      position: "bottom-end",
       showConfirmButton: false,
-      timer: 1500,
+      timer: 3000,
+      timerProgressBar: false,
+      background: "transparent",
+      showClass: { popup: "" },
+      hideClass: { popup: "" },
+      didOpen: (popup) => {
+        popup.style.background = "#10b981";
+        popup.style.color = "#fff";
+        popup.style.padding = "12px 24px";
+        popup.style.borderRadius = "8px";
+        popup.style.boxShadow = "0 10px 15px -3px rgba(0,0,0,0.1)";
+        popup.style.margin = "0";
+        popup.style.boxSizing = "border-box";
+        popup.style.maxWidth = "min(90vw, 400px)";
+        popup.style.width = "fit-content";
+
+        const title = popup.querySelector(".swal2-title");
+        if (title) {
+          title.style.color = "#fff";
+          title.style.fontSize = "14px";
+          title.style.fontWeight = "500";
+          title.style.margin = "0";
+          title.style.padding = "0";
+          title.style.whiteSpace = "normal";
+          title.style.wordBreak = "break-word";
+        }
+
+        popup.style.transition = "none";
+        popup.style.transform = "translateY(150%)";
+        popup.style.opacity = "0";
+
+        void popup.offsetHeight;
+
+        popup.style.transition =
+          "transform 0.35s ease-out, opacity 0.35s ease-out";
+        popup.style.transform = "translateY(0)";
+        popup.style.opacity = "1";
+      },
+      willClose: (popup) => {
+        popup.style.transition =
+          "transform 0.25s ease-in, opacity 0.25s ease-in";
+        popup.style.transform = "translateY(150%)";
+        popup.style.opacity = "0";
+      },
     });
   });
 
@@ -530,6 +573,7 @@ export async function initMeals() {
         return;
       }
       currentProducts = [product];
+
       productsCount.textContent = "Showing 1 product";
       products.render(product);
     } catch (error) {
