@@ -247,6 +247,12 @@ export async function initMeals() {
     document.body.style.overflow = "";
   });
 
+  navLink.forEach((nav) => {
+    nav.addEventListener("click", (e) => {
+      sidebar.classList.remove("open");
+      sidebarOverlay.classList.remove("active");
+    });
+  });
   // AREA FILTER LISTENER
   areaFilter.addEventListener("click", async (e) => {
     let clicked = e.target.closest("button");
