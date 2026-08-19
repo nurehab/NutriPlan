@@ -47,6 +47,12 @@ const nutriScoreFilters = document.querySelectorAll(".nutri-score-filter");
 const categoriesContainer = document.getElementById("product-categories");
 const listViewBtn = document.getElementById("list-view-btn");
 const gridViewBtn = document.getElementById("grid-view-btn");
+const headerMenuBtn = document.getElementById("header-menu-btn");
+const sidebar = document.getElementById("sidebar");
+const sidebarOverlay = document.getElementById("sidebar-overlay");
+const sidebarCloseBtn = document.getElementById("sidebar-close-btn");
+const navLink = document.querySelectorAll(".nav-link");
+const homePage = document.getElementById("home-page");
 // ! END OF ELEMENTS !
 // ^ START OF INSTANCES ^
 const mainMeal = new getData();
@@ -228,6 +234,18 @@ export async function initMeals() {
 
   gridViewBtn.addEventListener("click", () => switchView("grid"));
   listViewBtn.addEventListener("click", () => switchView("list"));
+
+  headerMenuBtn.addEventListener("click", (e) => {
+    sidebar.classList.add("open");
+    sidebarOverlay.classList.add("active");
+    document.body.style.overflow = "hidden";
+  });
+
+  sidebarCloseBtn.addEventListener("click", (e) => {
+    sidebar.classList.remove("open");
+    sidebarOverlay.classList.remove("active");
+    document.body.style.overflow = "";
+  });
 
   // AREA FILTER LISTENER
   areaFilter.addEventListener("click", async (e) => {
