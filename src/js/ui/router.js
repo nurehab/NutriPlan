@@ -6,6 +6,7 @@ const sections = {
 };
 
 const sidebar = document.getElementById("sidebar");
+const sidebarOverlay = document.getElementById("sidebar-overlay");
 const links = document.querySelectorAll(".nav-link");
 
 const pageToUrl = {
@@ -21,21 +22,20 @@ const urlToPage = {
 };
 
 export function showPage(pageName, updateUrl = true) {
+  if (!sections[pageName]) return;
   for (const key in sections) {
     sections[key].classList.add("hidden");
   }
-
   sections[pageName].classList.remove("hidden");
-
   links.forEach((link) => {
     const isActive =
       link.dataset.page === pageName ||
       (pageName === "mealDetails" && link.dataset.page === "home");
-
     link.classList.toggle("bg-emerald-50", isActive);
     link.classList.toggle("text-emerald-700", isActive);
     link.classList.toggle("text-gray-600", !isActive);
   });
+
   if (updateUrl) {
     const urlName = pageToUrl[pageName];
     if (urlName) {
@@ -46,13 +46,12 @@ export function showPage(pageName, updateUrl = true) {
 
 document.addEventListener("click", (e) => {
   const clicked = e.target.closest(".nav-link");
-
   if (!clicked) return;
-
   e.preventDefault();
-
+  sidebar.classList.remove("open");
+  sidebarOverlay.classList.remove("active");
+  document.body.style.overflow = "";
   const clickPageAtt = clicked.dataset.page;
-
   showPage(clickPageAtt);
 });
 
@@ -61,5 +60,6 @@ function loadPageFromUrl() {
   const pageName = urlToPage[hash] || "home";
   showPage(pageName, false);
 }
+
 window.addEventListener("hashchange", loadPageFromUrl);
 loadPageFromUrl();
